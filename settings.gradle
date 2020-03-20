@@ -1,2 +1,2 @@
 rootProject.name='UITools'
-include ':app', ':utils'
+include ':app', ':uimodule'
