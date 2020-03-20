@@ -1,4 +1,4 @@
-package com.example.toolsmodule
+package com.p97.toolsmodule
 
 class StateData<T> {
     var status: DataStatus

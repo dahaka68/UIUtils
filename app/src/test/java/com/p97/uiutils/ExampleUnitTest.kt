@@ -1,4 +1,4 @@
-package com.example.toolsmodule
+package com.p97.uiutils
 
 import org.junit.Test
 

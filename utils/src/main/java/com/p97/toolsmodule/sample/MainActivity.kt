@@ -1,8 +1,8 @@
-package com.example.toolsmodule.sample
+package com.p97.toolsmodule.sample
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.toolsmodule.R
+import com.p97.toolsmodule.R
 
 class MainActivity : AppCompatActivity() {
 

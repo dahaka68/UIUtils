@@ -1,4 +1,4 @@
-package com.example.toolsmodule
+package com.p97.toolsmodule
 
 import android.app.Application
 import android.content.Context

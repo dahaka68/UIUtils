@@ -1,4 +1,4 @@
-package com.example.uitools
+package com.p97.uiutils
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

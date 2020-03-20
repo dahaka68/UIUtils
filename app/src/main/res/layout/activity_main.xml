@@ -6,7 +6,7 @@
     <data>
         <variable
             name="insets"
-            type="com.example.toolsmodule.WindowInsetLiveDataManager.InsetData" />
+            type="com.p97.toolsmodule.WindowInsetLiveDataManager.InsetData" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
