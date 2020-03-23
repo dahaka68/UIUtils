@@ -3,21 +3,26 @@ package com.p97.uiutils
 import androidx.lifecycle.LiveData
 
 class WindowInsetLiveDataManager {
-    //LEFT
-    private lateinit var _insetdata: StateMutableLiveData<InsetData>
+
+    private lateinit var _insetData: StateMutableLiveData<InsetData>
     private val inset: StateMutableLiveData<InsetData>
         get() {
-            if (!::_insetdata.isInitialized) {
-                _insetdata = StateMutableLiveData()
+            if (!::_insetData.isInitialized) {
+                _insetData = StateMutableLiveData()
             }
-            return _insetdata
+            return _insetData
         }
 
     val insetLiveData: LiveData<StateData<InsetData>>
         get() = inset as LiveData<StateData<InsetData>>
 
-    protected fun postInsetData(left: InsetData) {
-        inset.postSuccess(left)
+    private fun postInsetData(newInset: InsetData) {
+        if (newInset.top == 0 && newInset.bottom == 0 && newInset.left == 0 && newInset.right == 0) return
+
+        val prevInset = inset.value as? InsetData
+        if (prevInset?.top == newInset.top && prevInset.bottom == newInset.bottom && prevInset.left == newInset.left && prevInset.right == newInset.right) return
+
+        inset.postSuccess(newInset)
     }
 
     fun postInsets(left: Int, top: Int, right: Int, bottom: Int) {
