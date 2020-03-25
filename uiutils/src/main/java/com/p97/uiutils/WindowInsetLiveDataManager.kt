@@ -1,5 +1,6 @@
 package com.p97.uiutils
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 
 class WindowInsetLiveDataManager {
@@ -17,11 +18,17 @@ class WindowInsetLiveDataManager {
         get() = inset as LiveData<StateData<InsetData>>
 
     private fun postInsetData(newInset: InsetData) {
-        if (newInset.top == 0 && newInset.bottom == 0 && newInset.left == 0 && newInset.right == 0) return
+        if (newInset.top == 0 && newInset.bottom == 0 && newInset.left == 0 && newInset.right == 0) {
+            Log.d(TAG, "ignored insets: T: ${newInset.top}, B: ${newInset.bottom}, L: ${newInset.left}, R: ${newInset.right}")
+            return
+        }
 
-        val prevInset = inset.value as? InsetData
-        if (prevInset?.top == newInset.top && prevInset.bottom == newInset.bottom && prevInset.left == newInset.left && prevInset.right == newInset.right) return
-
+        val prevInset = inset.value?.data
+        if (prevInset?.top == newInset.top && prevInset.bottom == newInset.bottom && prevInset.left == newInset.left && prevInset.right == newInset.right) {
+            Log.d(TAG, "old liveData insets: T: ${newInset.top}, B: ${newInset.bottom}, L: ${newInset.left}, R: ${newInset.right}")
+//            return
+        }
+        Log.d(TAG, "new liveData insets: T: ${newInset.top}, B: ${newInset.bottom}, L: ${newInset.left}, R: ${newInset.right}")
         inset.postSuccess(newInset)
     }
 
@@ -46,6 +53,7 @@ class WindowInsetLiveDataManager {
     }
 
     companion object {
+        private val TAG = WindowInsetLiveDataManager::class.java.simpleName
         val instance: WindowInsetLiveDataManager by lazy { HOLDER.INSTANCE }
     }
 }

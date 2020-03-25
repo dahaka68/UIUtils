@@ -20,16 +20,9 @@ object NavBarBindingAdapter {
     @JvmStatic
     fun lightNavigationBar(view: View, isLightNavBar: Boolean) {
         val window = (view.context as Activity).window
-        if (isLightNavBar == isLightCurrentNavColor(
-                window
-            )
-        ) return
+        if (isLightNavBar == isLightCurrentNavColor(window) && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
 
-        window.navigationBarColor =
-            getNavBarColor(
-                isLightNavBar,
-                view.context
-            )
+        window.navigationBarColor = getNavBarColor(isLightNavBar, view.context)
         val currentNavBar = if (isLightNavBar && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR else 0
         window.decorView.systemUiVisibility = currentNavBar
     }
@@ -37,21 +30,17 @@ object NavBarBindingAdapter {
     @SuppressLint("RestrictedApi")
     private fun getNavBarColor(isLightNavBar: Boolean, context: Context): Int {
         if (isLightNavBar && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            val opaqueNavBarColor = MaterialColors.getColor(context, android.R.attr.navigationBarColor, Color.BLACK)
-            return ColorUtils.setAlphaComponent(opaqueNavBarColor,
-                EDGE_TO_EDGE_BAR_ALPHA
-            )
+            val opaqueNavBarColor = MaterialColors.getColor(context, android.R.attr.navigationBarColor, ContextCompat.getColor(context, R.color.navBarColor))
+            return ColorUtils.setAlphaComponent(opaqueNavBarColor, EDGE_TO_EDGE_BAR_ALPHA)
         }
         return if (isLightNavBar) {
             Color.TRANSPARENT
         } else {
-            MaterialColors.getColor(context, 0, ContextCompat.getColor(context,
-                R.color.navBarColor
-            ))
+            MaterialColors.getColor(context, 0, ContextCompat.getColor(context, R.color.navBarColor))
         }
     }
 
     private fun isLightCurrentNavColor(window: Window): Boolean {
-        return window.navigationBarColor == Color.TRANSPARENT
+        return window.navigationBarColor != Color.TRANSPARENT && ColorUtils.calculateLuminance(window.navigationBarColor) > 0.5
     }
 }
